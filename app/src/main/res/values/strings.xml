@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">LightStory</string>
+    <string name="add_story">Add Story</string>
+    <string name="preference_file_key">PreferenceFileKey</string>
+    <string name="just_now">Just now</string>
+    <string name="_1_minute_ago">1 minute ago</string>
+    <string name="minutes_ago">%1$d minutes ago</string>
+    <string name="day_timestamp">%1$s, %2$s</string>
+    <string name="yesterday">Yesterday</string>
+    <string name="today">Today</string>
+    <string name="failed_to_load_preview">Failed to load preview</string>
+</resources>
