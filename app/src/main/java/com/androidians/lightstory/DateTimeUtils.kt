@@ -19,12 +19,12 @@ object DateTimeUtils {
             val endDate = outFormat.parse(endTime)
             var difference = endDate.time - startDate.time
             if (difference < 0) {
-                time.add(0L) // for yesterday
+                time.add(1L) // for yesterday
                 val dateMax = outFormat.parse("24:00")
                 val dateMin = outFormat.parse("00:00")
                 difference = dateMax.time - startDate.time + (endDate.time - dateMin.time)
             } else {
-                time.add(1L) // for today
+                time.add(0L) // for today
             }
             val days = (difference / (DAYS_IN_MILLIS)).toInt()
             val hours = ((difference - DAYS_IN_MILLIS * days) / (HOURS_IN_MILLIS))
