@@ -19,7 +19,7 @@ object DateTimeUtils {
             val endDate = outFormat.parse(endTime)
             var difference = endDate.time - startDate.time
             if (difference < 0) {
-                time.add(1L) // for yesterday
+                time.add(1) // for yesterday
                 val dateMax = outFormat.parse("24:00")
                 val dateMin = outFormat.parse("00:00")
                 difference = dateMax.time - startDate.time + (endDate.time - dateMin.time)
@@ -39,18 +39,13 @@ object DateTimeUtils {
     }
 
     fun getTimeDifferenceInMinutes(startTime: Long, endTime: Long): Long {
-        val outFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
         return try {
             val cal1 = Calendar.getInstance()
             cal1.timeInMillis = startTime
             val cal2 = Calendar.getInstance()
             cal2.timeInMillis = endTime
-            var difference = endTime - startTime
-            if (difference < 0) {
-                val dateMax = outFormat.parse("24:00")
-                val dateMin = outFormat.parse("00:00")
-                difference = dateMax.time - cal1.time.time + (cal2.time.time - dateMin.time)
-            }
+            val difference = endTime - startTime
+
 
             val days = difference / DAYS_IN_MILLIS
             val hours = (difference - (DAYS_IN_MILLIS * days)) / (HOURS_IN_MILLIS)
