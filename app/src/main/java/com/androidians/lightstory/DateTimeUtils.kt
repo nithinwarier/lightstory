@@ -7,6 +7,10 @@ import kotlin.collections.ArrayList
 
 object DateTimeUtils {
 
+    private const val DAYS_IN_MILLIS = 1000 * 60 * 60 * 24
+    private const val HOURS_IN_MILLIS = 1000 * 60 * 60
+    private const val MINUTE_IN_MILLIS = 1000 * 60
+
     fun getTimeDifferenceInHHandMM(startTime: String, endTime: String): ArrayList<Long> {
         val time = ArrayList<Long>()
         val outFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
@@ -22,9 +26,9 @@ object DateTimeUtils {
             } else {
                 time.add(1L) // for today
             }
-            val days = (difference / (1000 * 60 * 60 * 24)).toInt()
-            val hours = ((difference - 1000 * 60 * 60 * 24 * days) / (1000 * 60 * 60))
-            val minutes = (difference - 1000 * 60 * 60 * 24 * days - 1000 * 60 * 60 * hours) / (1000 * 60)
+            val days = (difference / (DAYS_IN_MILLIS)).toInt()
+            val hours = ((difference - DAYS_IN_MILLIS * days) / (HOURS_IN_MILLIS))
+            val minutes = (difference - (DAYS_IN_MILLIS * days) - HOURS_IN_MILLIS * hours) / (MINUTE_IN_MILLIS)
             time.add(hours)
             time.add(minutes)
             time
@@ -48,9 +52,9 @@ object DateTimeUtils {
                 difference = dateMax.time - cal1.time.time + (cal2.time.time - dateMin.time)
             }
 
-            val days = difference / (1000 * 60 * 60 * 24)
-            val hours = (difference - 1000 * 60 * 60 * 24 * days) / (1000 * 60 * 60)
-            val minutes = (difference - 1000 * 60 * 60 * 24 * days - 1000 * 60 * 60 * hours) / (1000 * 60)
+            val days = difference / DAYS_IN_MILLIS
+            val hours = (difference - (DAYS_IN_MILLIS * days)) / (HOURS_IN_MILLIS)
+            val minutes = (difference - (DAYS_IN_MILLIS * days) - (HOURS_IN_MILLIS * hours)) / (MINUTE_IN_MILLIS)
             (hours * 60) + minutes
         } catch (e: ParseException) {
             e.printStackTrace()
@@ -68,17 +72,17 @@ object DateTimeUtils {
             cal2.timeInMillis = endTime
             var difference = endTime - startTime
             if (difference < 0) {
-                time.add(0)
                 val dateMax = outFormat.parse("24:00")
                 val dateMin = outFormat.parse("00:00")
                 difference = dateMax.time - cal1.time.time + (cal2.time.time - dateMin.time)
-            } else {
                 time.add(1)
+            } else {
+                time.add(0)
             }
 
-            val days = difference / (1000 * 60 * 60 * 24)
-            val hours = (difference - 1000 * 60 * 60 * 24 * days) / (1000 * 60 * 60)
-            val minutes = (difference - 1000 * 60 * 60 * 24 * days - 1000 * 60 * 60 * hours) / (1000 * 60)
+            val days = difference / (DAYS_IN_MILLIS)
+            val hours = (difference - DAYS_IN_MILLIS * days) / (HOURS_IN_MILLIS)
+            val minutes = (difference - (DAYS_IN_MILLIS * days) - (HOURS_IN_MILLIS * hours)) / (1000 * 60)
             time.add(hours)
             time.add(minutes)
             time
@@ -97,6 +101,5 @@ object DateTimeUtils {
         cal[Calendar.MILLISECOND] = cal.getMinimum(Calendar.MILLISECOND)
         return cal.time
     }
-
 
 }
